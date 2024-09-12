@@ -11,18 +11,18 @@ app.use(cors());
 
 const port = process.env.PORT || 3000;
 
-const urls = [
-  { id: 1, url: "https://google.com/" },
-  { id: 2, url: "https://github.com/" },
-];
+// Liste des URLs traitées
+const urls = [];
 
-async function fonctiondescraping(url) {
+// Fonction pour scraper les images
+async function scrapeImagesFromUrl(url) {
   const result = [];
   try {
     const res = await axios.get(url);
     const html_data = res.data;
     const $ = cheerio.load(html_data);
 
+    // Sélection des images
     $("img").each((index, elem) => {
       const imgUrl = $(elem).attr("src");
       if (imgUrl) {
@@ -36,28 +36,33 @@ async function fonctiondescraping(url) {
   return result;
 }
 
-app.get("/urls", (req, res) => {
-  res.json(urls);
-});
-
-app.post("/posturl", async (req, res) => {
+// Endpoint pour scraper  l'URL et récupérer les images
+app.post("/scrape", async (req, res) => {
   const { url } = req.body;
 
   if (!url || typeof url !== "string") {
     return res.status(400).json({ error: "URL invalide" });
   }
 
-  const images = await fonctiondescraping(url);
+  // Scraping des images
+  const images = await scrapeImagesFromUrl(url);
 
   if (!images) {
     return res.status(500).json({ error: "Erreur lors du scraping" });
   }
 
+  // Ajout de l'URL à la liste des URLs traitées
   urls.push({ id: urls.length + 1, url });
 
   res.json({ images });
 });
 
+// Endpoint pour lister les URLs traitées
+app.get("/urls", (req, res) => {
+  res.json(urls);
+});
+
+// Démarrage du serveur
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
