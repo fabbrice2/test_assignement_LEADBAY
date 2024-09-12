@@ -14,22 +14,32 @@ const urls = [
   { id: 2, url: "https://github.com/" },
 ];
 
+
+
 app.get("/urls", (req, res) => {
   res.json(urls);
 });
 
-app.post("/posturl", (req, res) => {
-  const url = req.body;
-
-  const newUrl = { id: urls.length + 1, url };
-  urls.push(newUrl);
-
-  res.status(201).json(newUrl);
-
+app.post("/posturl", async (req, res) => {
+  const { url } = req.body;
   
+  if (!url || typeof url !== "string") {
+    return res.status(400).json({ error: "URL invalide" });
+  }
 
+  const images = await fonctiondescraping(url);
+  
+  if (!images) {
+    return res.status(500).json({ error: "Erreur lors du scraping" });
+  }
+
+  urls.push({ id: urls.length + 1, url });
+
+  res.json({ images });
 });
 
+
+
 app.listen(port, () => {
-  console.log(`Server listen to the port${port}`);
+  console.log(`Server listening on port ${port}`);
 });
