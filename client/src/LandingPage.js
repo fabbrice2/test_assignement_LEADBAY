@@ -2,9 +2,10 @@ import React, { useState } from "react";
 
 function LandingPage() {
   const [url, setUrl] = useState("");
+  const [images, setImages] = useState([]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:3001/scrape", {
@@ -19,6 +20,7 @@ function LandingPage() {
 
       if (response.ok) {
         console.log("Images obtenues :", data.images);
+        setImages(data.images);
       } else {
         console.error("Erreur :", data.error);
       }
@@ -61,6 +63,18 @@ function LandingPage() {
           </button>
         </div>
       </form>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {images.map((image, index) => (
+          <div key={index}>
+            <img
+              className="h-auto max-w-full rounded-lg"
+              src={image.imgUrl}
+              alt={`Scraped img ${index}`}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
