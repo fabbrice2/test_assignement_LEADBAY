@@ -11,7 +11,7 @@ app.use(cors());
 
 const port = 3001;
 
-// Liste des URLs traitées
+// Liste des URLs 
 const urls = [];
 
 // Fonction pour scraper les images
