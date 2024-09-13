@@ -31,6 +31,7 @@ function LandingPage() {
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <a href="/historique">Historique des urls déja traités</a>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <div className="flex items-center justify-between">
@@ -64,7 +65,7 @@ function LandingPage() {
         </div>
       </form>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
         {images.map((image, index) => (
           <div key={index}>
             <img

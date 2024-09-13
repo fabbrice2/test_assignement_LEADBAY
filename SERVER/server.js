@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = process.env.PORT || 3001;
+const port = 3001;
 
 // Liste des URLs traitées
 const urls = [];
