@@ -1,7 +1,23 @@
-import React from "react";
+
+import { Routes, Route } from "react-router-dom"
+import LandingPage from './LandingPage';
+import GalleryImg from "./GalleryImg";
+
+
 
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+
+  
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/results" element={<GalleryImg />} />
+      </Routes>
+
+    </div>
+  );
 }
+
 
 export default App;
